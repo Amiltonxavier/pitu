@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../../components/Header';
 import { Container } from 'react-bootstrap';
+
 import ShortenerService from '../../services/shortenerService';
 import { parseISO, formatRelative } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -21,8 +22,8 @@ class StatsPage extends React.Component {
      const { code } = this.props.match.params;
 
      try{
-        const services = new ShortenerService();
-        const shortenedURL = await services.getStats(code);
+        const service = new ShortenerService();
+        const shortenedURL = await service.getStats(code);
 
         const parsedDate = parseISO(shortenedURL.updatedAt);
         const currentDate = new Date();
@@ -44,27 +45,28 @@ class StatsPage extends React.Component {
          <Container>
              <Header>Estatíticas</Header>
              {errorMessage ? (
-                    <StatsContainer className="text-center">
-                        <FontAwesomeIcon size="3x" color="#f8d7da" icon="exclamation-triangle" />
-                         <p className="m-3">{errorMessage}</p>
-                         <a className="btn btn-primary" href="/">Encurtar nova URL</a>
+                   
+                  <StatsContainer className="text-center">
+                       <p><b>https://pitu.tk/${shortenedURL.code}</b></p>
+                             <p>Redireciona para:<b>{shortenedURL.url}</b></p>
+                                <StatsRow>
+                                    <StatsBox>
+                                        <b>{shortenedURL.hits}</b>
+                                            <StatsBoxTitle>Visitas</StatsBoxTitle>
+                                    </StatsBox>
+                                <StatsBox>
+                                    <b>{shortenedURL.relativeDate}</b>
+                                         <StatsBoxTitle>última visita</StatsBoxTitle>
+                               </StatsBox>
+                                    <a className="btn btn-primary" href="/">Encurtar nova URL</a>
+                                 </StatsRow>
                     </StatsContainer>
                  ) : (
                         <StatsContainer className="text-center">
-                        <p><b>https://pitu.tk/${shortenedURL.code}</b></p>
-                         <p>Redireciona para:<b>{shortenedURL.url}</b></p>
-                            <StatsRow>
-                                <StatsBox>
-                                     <b>{shortenedURL.hits}</b>
-                                     <StatsBoxTitle>Visitas</StatsBoxTitle>
-                                </StatsBox>
-                                <StatsBox>
-                                     <b>{shortenedURL.relativeDate}</b>
-                                     <StatsBoxTitle>última visita</StatsBoxTitle>
-                                </StatsBox>
-                                <a className="btn btn-primary" href="/">Encurtar nova URL</a>
-                            </StatsRow>
-                        </StatsContainer>
+                            <FontAwesomeIcon size="3x" color="#f8d7da" icon="exclamation-triangle" />
+                            <p className="m-3">{errorMessage}</p>
+                            <a className="btn btn-primary" href="/">Encurtar nova URL</a>
+                    </StatsContainer>
                  )}
          </Container>
      )
