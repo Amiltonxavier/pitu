@@ -8,8 +8,8 @@ Este é um projeto de um encurtador de URL desenvolvido com Node.js, React.js, S
 
 ## Pré-requisitos
 
-- Node.js (versão X.X.X)
-- MySQL (versão X.X.X)
+- Node.js 
+- MySQL 
 
 ## Instalação
 
